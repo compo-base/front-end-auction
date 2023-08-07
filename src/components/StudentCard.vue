@@ -8,14 +8,14 @@
 </template>
 
 <script setup lang="ts">
-import type { studentInfo } from '@/student'
-import { PropTypes } from 'vue'
+import type { studentInfo } from "@/student";
+import { PropType } from "vue";
 const props = defineProps({
   student: {
-    type: Object as PropTypes<studentInfo>,
-    required: true
-  }
-})
+    type: Object as PropType<studentInfo>,
+    required: true,
+  },
+});
 </script>
 
 <style scoped></style>

@@ -1,5 +1,8 @@
 <template>
-  <RouterLink :to="{ name: 'event-detail', params: { id: event?.id } }" class="event-link">
+  <RouterLink
+    :to="{ name: 'event-detail', params: { id: event?.id } }"
+    class="event-link"
+  >
     <div class="event-class">
       <div class="p-5 w-64 cursor-pointer border border-gray-600 mb-5">
         <span> @{{ event?.time }} on {{ event?.date }}</span>
@@ -10,12 +13,12 @@
 </template>
 
 <script setup lang="ts">
-import { type EventItem } from '@/type'
-import { PropTypes } from 'vue'
+import { type EventItem } from "@/type";
+import { PropType } from "vue";
 const props = defineProps({
   event: {
-    type: Object as PropTypes<EventItem>,
-    requier: true
-  }
-})
+    type: Object as PropType<EventItem>,
+    requier: true,
+  },
+});
 </script>

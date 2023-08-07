@@ -6,13 +6,13 @@
 </template>
 
 <script setup lang="ts">
-import { type EventItem } from '@/type'
-import { PropTypes } from 'vue'
+import { type EventItem } from "@/type";
+import { PropType } from "vue";
 
 const props = defineProps({
   event: {
-    type: Object as PropTypes<EventItem>,
-    require: true
-  }
-})
+    type: Object as PropType<EventItem>,
+    require: true,
+  },
+});
 </script>
