@@ -1,58 +1,58 @@
 <script setup lang="ts">
-import EventCard from '../components/EventCard.vue'
-import EventOrganizer from '../components/EventOrganizer.vue'
-import { events } from '@/event_type'
-import type { EventItem } from './type'
-import { computed, ref, watchEffect } from 'vue'
-import type { Ref } from 'vue'
-import EventService from '@/services/EventService'
-import type { Axios, AxiosResponse } from 'axios'
-import { useRouter } from 'vue-router'
-import { onBeforeRouteUpdate } from 'vue-router'
+import EventCard from "../components/EventCard.vue";
+import EventOrganizer from "../components/EventOrganizer.vue";
+import { events } from "@/event_type";
+import type { EventItem } from "@/type";
+import { computed, ref, watchEffect } from "vue";
+import type { Ref } from "vue";
+import EventService from "@/services/EventService";
+import type { Axios, AxiosResponse } from "axios";
+import { useRouter } from "vue-router";
+import { onBeforeRouteUpdate } from "vue-router";
 
-const router = useRouter()
-const events: Ref<Array<EventItem>> = ref([])
-const totalEvent = ref<number>(0)
-const eventsPerPage = ref(2) //initial value of events
+const router = useRouter();
+const event: Ref<Array<EventItem>> = ref([]);
+const totalEvent = ref<number>(0);
+const eventsPerPage = ref(2); //initial value of events
 const props = defineProps({
   page: {
     type: Number,
-    required: true
-  }
-})
+    required: true,
+  },
+});
 watchEffect(() => {
   EventService.getEvent(eventsPerPage.value, props.page).then(
     (response: AxiosResponse<EventItem[]>) => {
-      events.value = response.data
+      events.value = response.data;
     }
-  )
+  );
   EventService.getEvent(eventsPerPage.value, props.page)
     .then((response: AxiosResponse<EventItem[]>) => {
-      events.value = response.data
-      totalEvent.value = response.headers['x-total-count']
+      events.value = response.data;
+      totalEvent.value = response.headers["x-total-count"];
     })
     .catch(() => {
-      router.push({ name: 'NetworkError' })
-    })
-})
+      router.push({ name: "NetworkError" });
+    });
+});
 onBeforeRouteUpdate((to, from, next) => {
-  const toPage = Number(to.query.page)
+  const toPage = Number(to.query.page);
   EventService.getEvent(eventsPerPage.value, toPage)
     .then((response: AxiosResponse<EventItem[]>) => {
-      events.value = response.data
-      totalEvent.value = response.headers['x-total-count']
-      next()
+      events.value = response.data;
+      totalEvent.value = response.headers["x-total-count"];
+      next();
     })
     .catch(() => {
-      next({ name: 'NetworkError' })
-    })
-})
+      next({ name: "NetworkError" });
+    });
+});
 
 const hasNextPages = computed(() => {
   //first calculate total page
-  const totalPages = Math.ceil(totalEvent.value / eventsPerPage.value)
-  return props.page.valueOf() < totalPages
-})
+  const totalPages = Math.ceil(totalEvent.value / eventsPerPage.value);
+  return props.page.valueOf() < totalPages;
+});
 </script>
 
 <template>
@@ -66,7 +66,11 @@ const hasNextPages = computed(() => {
         class="border border-gray-300 p-2 rounded"
       />
     </div>
-    <EventCard v-for="event in events" :key="event.id" :event="event"></EventCard>
+    <EventCard
+      v-for="event in events"
+      :key="event.id"
+      :event="event"
+    ></EventCard>
     <div class="pagination">
       <RouterLink
         :to="{ name: 'event-list', query: { page: page - 1 } }"
@@ -87,6 +91,10 @@ const hasNextPages = computed(() => {
         Next page
       </RouterLink>
     </div>
-    <EventOrganizer v-for="event in events" :key="event.id" :event="event"></EventOrganizer>
+    <EventOrganizer
+      v-for="event in events"
+      :key="event.id"
+      :event="event"
+    ></EventOrganizer>
   </main>
 </template>
