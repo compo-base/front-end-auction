@@ -2,9 +2,11 @@
 import { RouterLink, RouterView } from "vue-router";
 import { useMessageStore } from "./stores/message";
 import { storeToRefs } from "pinia";
+import { ref } from "vue";
 
 const store = useMessageStore();
 const { message } = storeToRefs(store);
+const title = ref("642115025 Nureman Sateemae");
 </script>
 
 <template>
@@ -36,7 +38,7 @@ const { message } = storeToRefs(store);
         </div>
       </div>
     </nav>
-    <h1 class="text-blue-900 mb-2">642115025 Nureman Sateemae</h1>
+    <h3 class="text-blue-900 mb-2">{{ title }}</h3>
   </header>
 
   <RouterView />
