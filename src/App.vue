@@ -6,7 +6,7 @@ import { ref } from "vue";
 
 const store = useMessageStore();
 const { message } = storeToRefs(store);
-const title = ref("642115047 baibua");
+const title = ref("642115025 Nureman");
 </script>
 
 <template>

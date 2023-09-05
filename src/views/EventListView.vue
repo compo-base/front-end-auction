@@ -21,11 +21,6 @@ const props = defineProps({
   },
 });
 watchEffect(() => {
-  EventService.getEvent(eventsPerPage.value, props.page).then(
-    (response: AxiosResponse<EventItem[]>) => {
-      events.value = response.data;
-    }
-  );
   EventService.getEvent(eventsPerPage.value, props.page)
     .then((response: AxiosResponse<EventItem[]>) => {
       events.value = response.data;
@@ -91,10 +86,5 @@ const hasNextPages = computed(() => {
         Next page
       </RouterLink>
     </div>
-    <EventOrganizer
-      v-for="event in events"
-      :key="event.id"
-      :event="event"
-    ></EventOrganizer>
   </main>
 </template>
