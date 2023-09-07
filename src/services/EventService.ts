@@ -1,6 +1,7 @@
 import axios from "axios";
 import type { AxiosInstance, AxiosResponse } from "axios";
 import type { EventItem } from "@/type";
+import type { studentInfo } from "@/student";
 
 const apiClient: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL,
@@ -19,4 +20,7 @@ export default {
   getEventById(id: number): Promise<AxiosResponse<EventItem>> {
     return apiClient.get<EventItem>("events/" + id.toString());
   },
+  getStudent(): Promise<AxiosResponse<studentInfo[]>> {
+    return apiClient.get<studentInfo[]>('/students')
+  }
 };

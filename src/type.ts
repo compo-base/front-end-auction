@@ -9,3 +9,4 @@ export interface EventItem {
   petsAllowed: boolean
   organizer: string
 }
+

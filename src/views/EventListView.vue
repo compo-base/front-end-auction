@@ -1,17 +1,15 @@
 <script setup lang="ts">
 import EventCard from "../components/EventCard.vue";
-import EventOrganizer from "../components/EventOrganizer.vue";
-import { events } from "@/event_type";
 import type { EventItem } from "@/type";
 import { computed, ref, watchEffect } from "vue";
 import type { Ref } from "vue";
 import EventService from "@/services/EventService";
-import type { Axios, AxiosResponse } from "axios";
+import type { AxiosResponse } from "axios";
 import { useRouter } from "vue-router";
 import { onBeforeRouteUpdate } from "vue-router";
 
 const router = useRouter();
-const event: Ref<Array<EventItem>> = ref([]);
+const events: Ref<Array<EventItem>> = ref([]);
 const totalEvent = ref<number>(0);
 const eventsPerPage = ref(2); //initial value of events
 const props = defineProps({
