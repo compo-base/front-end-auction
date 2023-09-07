@@ -1,6 +1,6 @@
 import axios from "axios";
 import type { AxiosInstance, AxiosResponse } from "axios";
-import type { EventItem } from "@/type";
+import type { EventItem, OrganizerItem } from "@/type";
 import type { studentInfo } from "@/student";
 
 const apiClient: AxiosInstance = axios.create({
@@ -22,5 +22,14 @@ export default {
   },
   getStudent(): Promise<AxiosResponse<studentInfo[]>> {
     return apiClient.get<studentInfo[]>('/students')
+  },
+  getOrganizer(perPage: number, page: number): Promise<AxiosResponse<OrganizerItem[]>> {
+    return apiClient.get<Array<OrganizerItem>>(
+      "/organizer?_limit=" + perPage + "&_page=" + page
+    );
+  },
+  getOrganizeById(id: number): Promise<AxiosResponse<OrganizerItem>> {
+    return apiClient.get<OrganizerItem>("organizer/" + id.toString());
   }
+  
 };

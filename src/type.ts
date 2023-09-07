@@ -10,3 +10,10 @@ export interface EventItem {
   organizer: string
 }
 
+export interface OrganizerItem{
+  id : number
+  name:String 
+  address:String
+  description:String
+
+}

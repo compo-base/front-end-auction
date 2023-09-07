@@ -11,7 +11,7 @@ import { onBeforeRouteUpdate } from "vue-router";
 const router = useRouter();
 const events: Ref<Array<EventItem>> = ref([]);
 const totalEvent = ref<number>(0);
-const eventsPerPage = ref(2); //initial value of events
+const eventsPerPage = ref(3); //initial value of events
 const props = defineProps({
   page: {
     type: Number,
@@ -42,7 +42,7 @@ onBeforeRouteUpdate((to, from, next) => {
 });
 
 const hasNextPages = computed(() => {
-  //first calculate total page
+
   const totalPages = Math.ceil(totalEvent.value / eventsPerPage.value);
   return props.page.valueOf() < totalPages;
 });
