@@ -35,6 +35,9 @@ const title = ref("642115025 Nureman");
           <RouterLink :to="{ name: 'students' }" class="hover:text-gray-500"
             >Students</RouterLink
           >
+          <RouterLink :to="{ name: 'add-event' }" class="hover:text-gray-500"
+            >New Event</RouterLink
+          >
         </div>
       </div>
     </nav>
