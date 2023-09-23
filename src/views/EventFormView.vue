@@ -3,6 +3,7 @@ import type { EventItem } from "@/type";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import EventService from "@/services/EventService";
+import { useMessageStore } from "../stores/message";
 const event = ref<EventItem>({
   id: 0,
   category: "",
@@ -16,6 +17,7 @@ const event = ref<EventItem>({
 });
 
 const router = useRouter();
+const store = useMessageStore();
 function saveEvent() {
   EventService.saveEvent(event.value)
     .then((response) => {
@@ -24,6 +26,12 @@ function saveEvent() {
         name: "event-detail",
         params: { id: response.data.id },
       });
+      store.updateMessage(
+        "You are successfully add a new event for " + response.data.title
+      );
+      setTimeout(() => {
+        store.resetMessage();
+      }, 3000);
     })
     .catch(() => {
       router.push({ name: "network-error" });
