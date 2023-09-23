@@ -20,16 +20,21 @@ export default {
   getEventById(id: number): Promise<AxiosResponse<EventItem>> {
     return apiClient.get<EventItem>("events/" + id.toString());
   },
-  getStudent(): Promise<AxiosResponse<studentInfo[]>> {
-    return apiClient.get<studentInfo[]>('/students')
+  saveEvent(event: EventItem): Promise<AxiosResponse<EventItem>> {
+    return apiClient.post<EventItem>("/events", event);
   },
-  getOrganizer(perPage: number, page: number): Promise<AxiosResponse<OrganizerItem[]>> {
+  getStudent(): Promise<AxiosResponse<studentInfo[]>> {
+    return apiClient.get<studentInfo[]>("/students");
+  },
+  getOrganizer(
+    perPage: number,
+    page: number
+  ): Promise<AxiosResponse<OrganizerItem[]>> {
     return apiClient.get<Array<OrganizerItem>>(
       "/organizer?_limit=" + perPage + "&_page=" + page
     );
   },
   getOrganizeById(id: number): Promise<AxiosResponse<OrganizerItem>> {
     return apiClient.get<OrganizerItem>("organizer/" + id.toString());
-  }
-  
+  },
 };
