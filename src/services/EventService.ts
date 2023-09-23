@@ -37,4 +37,9 @@ export default {
   getOrganizeById(id: number): Promise<AxiosResponse<OrganizerItem>> {
     return apiClient.get<OrganizerItem>("organizer/" + id.toString());
   },
+  saveOrganizer(
+    organizer: OrganizerItem
+  ): Promise<AxiosResponse<OrganizerItem>> {
+    return apiClient.post<OrganizerItem>("/organizer", organizer);
+  },
 };

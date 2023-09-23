@@ -38,6 +38,11 @@ const title = ref("642115025 Nureman");
           <RouterLink :to="{ name: 'add-event' }" class="hover:text-gray-500"
             >New Event</RouterLink
           >
+          <RouterLink
+            :to="{ name: 'add-organizer' }"
+            class="hover:text-gray-500"
+            >New Organizer</RouterLink
+          >
         </div>
       </div>
     </nav>

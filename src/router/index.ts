@@ -12,7 +12,8 @@ import NetworkErrorView from "@/views/NetworkErrorView.vue";
 import NProgress from "nprogress";
 import EventService from "@/services/EventService";
 import { useEventStore } from "@/stores/event";
-import AddForm from '@/views/EventFormView.vue'
+import AddForm from "@/views/EventFormView.vue";
+import AddOrganizer from "@/views/OrganizeForm.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -37,6 +38,11 @@ const router = createRouter({
       path: "/add-event",
       name: "add-event",
       component: AddForm,
+    },
+    {
+      path: "/add-organizer",
+      name: "add-organizer",
+      component: AddOrganizer,
     },
     {
       path: "/organizer",
