@@ -29,20 +29,20 @@ const title = ref("642115025 Nureman");
           <RouterLink :to="{ name: 'about' }" class="hover:text-gray-500"
             >About</RouterLink
           >
-          <RouterLink :to="{ name: 'Organize' }" class="hover:text-gray-500"
-            >Organizer</RouterLink
-          >
+<!--          <RouterLink :to="{ name: 'Organize' }" class="hover:text-gray-500"-->
+<!--            >Organizer</RouterLink-->
+<!--          >-->
           <RouterLink :to="{ name: 'students' }" class="hover:text-gray-500"
             >Students</RouterLink
           >
           <RouterLink :to="{ name: 'add-event' }" class="hover:text-gray-500"
             >New Event</RouterLink
           >
-          <RouterLink
-            :to="{ name: 'add-organizer' }"
-            class="hover:text-gray-500"
-            >New Organizer</RouterLink
-          >
+<!--          <RouterLink-->
+<!--            :to="{ name: 'add-organizer' }"-->
+<!--            class="hover:text-gray-500"-->
+<!--            >New Organizer</RouterLink-->
+<!--          >-->
         </div>
       </div>
     </nav>

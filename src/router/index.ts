@@ -39,19 +39,19 @@ const router = createRouter({
       name: "add-event",
       component: AddForm,
     },
-    {
-      path: "/add-organizer",
-      name: "add-organizer",
-      component: AddOrganizer,
-    },
-    {
-      path: "/organizer",
-      name: "Organize",
-      component: OrganizerView,
-      props: (route) => ({
-        page: parseInt((route.query?.page as string) || "1"),
-      }),
-    },
+    // {
+    //   path: "/add-organizer",
+    //   name: "add-organizer",
+    //   component: AddOrganizer,
+    // },
+    // {
+    //   path: "/organizer",
+    //   name: "Organize",
+    //   component: OrganizerView,
+    //   props: (route) => ({
+    //     page: parseInt((route.query?.page as string) || "1"),
+    //   }),
+    // },
     {
       path: "/students",
       name: "students",
