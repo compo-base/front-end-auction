@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import type { EventItem } from "@/type";
+import type { OrganizerItem } from "@/type";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import EventService from "@/services/EventService";
 import { useMessageStore } from "../stores/message";
 import BaseInput from '@/components/BaseInput.vue'
+import BaseSelect from "@/components/BaseSelect.vue";
+
+const organizers = ref<OrganizerItem[]>([])
 const event = ref<EventItem>({
   id: 0,
   category: "",
@@ -14,7 +18,7 @@ const event = ref<EventItem>({
   date: "",
   time: "",
   petsAllowed: true,
-  organizer: "",
+  organizer:{ id: 1, name: "", address: "", description: "" },
 });
 
 const router = useRouter();
@@ -38,6 +42,14 @@ function saveEvent() {
       router.push({ name: "network-error" });
     });
 }
+
+EventService.getOrganizers()
+    .then((response) =>{
+      organizers.value = response.data
+    })
+    .catch(() =>{
+      router.push({name:'network-error'})
+    })
 </script>
 
 <template>
@@ -68,8 +80,7 @@ function saveEvent() {
           placeholder="Title"
           label="title"
           class="field w-full p-2 rounded border focus:border-blue-400 focus:outline-none transition duration-150"
-          id="title">
-        </BaseInput>
+          />
       </div>
 
       <div class="mb-4">
@@ -79,8 +90,7 @@ function saveEvent() {
           placeholder="Description"
           label="Description"
           class="field w-full p-2 rounded border focus:border-blue-400 focus:outline-none transition duration-150"
-          id="title">
-        </BaseInput>
+          />
       </div>
 
       <h3 class="text-xl font-semibold mb-2 text-gray-800">
@@ -94,10 +104,12 @@ function saveEvent() {
           placeholder="Location"
           label="Location"
           class="field w-full p-2 rounded border focus:border-blue-400 focus:outline-none transition duration-150"
-          id="title">
-        </BaseInput>
+          />
       </div>
-
+      <div class="mb-4">
+        <h3>Who's is your organizer</h3>
+      <BaseSelect  v-model="event.organizer.id" :options="organizers" class="field w-full p-2 rounded border focus:border-blue-400 focus:outline-none transition duration-150"/>
+      </div>
       <button
         type="submit"
         class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-150"

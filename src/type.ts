@@ -7,7 +7,7 @@ export interface EventItem {
   date: string;
   time: string;
   petsAllowed: boolean;
-  organizer: OrganizerItem|string;
+  organizer: OrganizerItem | string;
 }
 
 export interface OrganizerItem {

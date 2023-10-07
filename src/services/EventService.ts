@@ -26,6 +26,9 @@ export default {
   getStudent(): Promise<AxiosResponse<studentInfo[]>> {
     return apiClient.get<studentInfo[]>("/students");
   },
+  getOrganizers():Promise<AxiosResponse<OrganizerItem[]>>{
+    return apiClient.get<OrganizerItem[]>('/organizer')
+  }
   // getOrganizer(
   //   perPage: number,
   //   page: number

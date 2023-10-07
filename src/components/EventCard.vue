@@ -15,6 +15,7 @@
 </template>
 
 <script setup lang="ts">
+
 import {type EventItem} from "@/type";
 import {type OrganizerItem} from "@/type";
 import { type PropType } from "vue";
@@ -22,11 +23,11 @@ import { type PropType } from "vue";
 const props = defineProps({
   event: {
     type: Object as PropType<EventItem>,
-    requier: true,
+    require: true,
   },
   organizer: {
     type: Object as PropType<OrganizerItem>,
-    requier: true,
+    require: true,
   }
 });
 </script>
