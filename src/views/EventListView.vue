@@ -8,12 +8,11 @@ import type { AxiosResponse } from "axios";
 import { useRouter } from "vue-router";
 import { onBeforeRouteUpdate } from "vue-router";
 import BaseInput from "@/components/BaseInput.vue";
-import NetworkErrorView from "@/views/NetworkErrorView.vue";
 
 const router = useRouter();
 const events: Ref<Array<EventItem>> = ref([]);
 const totalEvent = ref<number>(0);
-const eventsPerPage = ref(3); //initial value of events
+const eventsPerPage = ref(2); //initial value of events
 const props = defineProps({
   page: {
     type: Number,
@@ -25,6 +24,7 @@ watchEffect(() => {
     .then((response: AxiosResponse<EventItem[]>) => {
       events.value = response.data;
       totalEvent.value = response.headers["x-total-count"];
+      console.log('Fetched total events:', response.headers["x-total-count"]);
     })
     .catch(() => {
       router.push({ name: "NetworkError" });
@@ -32,7 +32,13 @@ watchEffect(() => {
 });
 onBeforeRouteUpdate((to, from, next) => {
   const toPage = Number(to.query.page);
-  EventService.getEvent(eventsPerPage.value, toPage)
+  let queryFunction;
+  if (keyword.value === null || keyword.value === '') {
+    queryFunction = EventService.getEvent(eventsPerPage.value, toPage);
+  } else {
+    queryFunction = EventService.getEventsByKeyword(keyword.value, eventsPerPage.value, toPage);
+  }
+  queryFunction
     .then((response: AxiosResponse<EventItem[]>) => {
       events.value = response.data;
       totalEvent.value = response.headers["x-total-count"];
@@ -45,25 +51,27 @@ onBeforeRouteUpdate((to, from, next) => {
 
 const hasNextPages = computed(() => {
   const totalPages = Math.ceil(totalEvent.value / eventsPerPage.value);
+  console.log('Current Page:', props.page.valueOf());
+  console.log('Total Pages:', totalPages);
   return props.page.valueOf() < totalPages;
 });
-
 const keyword = ref('')
 function updateKeyword(value:string){
   let queryFunction;
   if(keyword.value === ''){
-    queryFunction = EventService.getEvent(3,1)
+    queryFunction = EventService.getEvent(2,1)
   }else{
-    queryFunction = EventService.getEventsByKeyword(keyword.value,3,1)
+    queryFunction = EventService.getEventsByKeyword(keyword.value,2,1)
   }
   queryFunction.then((response:AxiosResponse<EventItem[]>) =>{
     events.value = response.data
     console.log('events',events.value)
-    totalEvent.value = response.headers['x--total-count']
+    totalEvent.value = response.headers['x-total-count']
     console.log('totalEvent',totalEvent.value)
   }).catch(() =>{
     router.push({name:"NetworkErrorView"})
   })
+
 }
 </script>
 
