@@ -7,6 +7,8 @@ import EventService from "@/services/EventService";
 import type { AxiosResponse } from "axios";
 import { useRouter } from "vue-router";
 import { onBeforeRouteUpdate } from "vue-router";
+import BaseInput from "@/components/BaseInput.vue";
+import NetworkErrorView from "@/views/NetworkErrorView.vue";
 
 const router = useRouter();
 const events: Ref<Array<EventItem>> = ref([]);
@@ -42,14 +44,39 @@ onBeforeRouteUpdate((to, from, next) => {
 });
 
 const hasNextPages = computed(() => {
-
   const totalPages = Math.ceil(totalEvent.value / eventsPerPage.value);
   return props.page.valueOf() < totalPages;
 });
+
+const keyword = ref('')
+function updateKeyword(value:string){
+  let queryFunction;
+  if(keyword.value === ''){
+    queryFunction = EventService.getEvent(3,1)
+  }else{
+    queryFunction = EventService.getEventsByKeyword(keyword.value,3,1)
+  }
+  queryFunction.then((response:AxiosResponse<EventItem[]>) =>{
+    events.value = response.data
+    console.log('events',events.value)
+    totalEvent.value = response.headers['x--total-count']
+    console.log('totalEvent',totalEvent.value)
+  }).catch(() =>{
+    router.push({name:"NetworkErrorView"})
+  })
+}
 </script>
 
 <template>
   <main class="flex flex-col items-center">
+    <div class="w-4">
+      <BaseInput
+      v-model="keyword"
+      placeholder="Search..."
+      type="text"
+      @input="updateKeyword"
+      />
+    </div>
     <div class="events-input">
       <label for="events-per-page">Events per page:</label>
       <input

@@ -28,6 +28,9 @@ export default {
   },
   getOrganizers():Promise<AxiosResponse<OrganizerItem[]>>{
     return apiClient.get<OrganizerItem[]>('/organizer')
+  },
+  getEventsByKeyword(keyword:string,perPage:number,page:number):Promise<AxiosResponse<EventItem[]>>{
+    return apiClient.get<EventItem[]>('/events?title='+keyword+'&_limit='+perPage+'&_page='+page)
   }
   // getOrganizer(
   //   perPage: number,
