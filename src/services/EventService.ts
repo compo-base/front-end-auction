@@ -1,7 +1,6 @@
 import axios from "axios";
 import type { AxiosInstance, AxiosResponse } from "axios";
-import type { EventItem, OrganizerItem } from "@/type";
-import type { studentInfo } from "@/student";
+import type {AuctionItem} from "@/type";
 
 const apiClient: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL,
@@ -12,40 +11,19 @@ const apiClient: AxiosInstance = axios.create({
   },
 });
 export default {
-  getEvent(perPage: number, page: number): Promise<AxiosResponse<EventItem[]>> {
-    return apiClient.get<Array<EventItem>>(
-      "/events?_limit=" + perPage + "&_page=" + page
+  getAuctionItem(perPage: number, page: number): Promise<AxiosResponse<AuctionItem[]>> {
+    return apiClient.get<Array<AuctionItem>>(
+        "/items?_limit=" + perPage + "&_page=" + page
     );
   },
-  getEventById(id: number): Promise<AxiosResponse<EventItem>> {
-    return apiClient.get<EventItem>("events/" + id.toString());
+  getAuctionById(id: number): Promise<AxiosResponse<AuctionItem>> {
+    return apiClient.get<AuctionItem>("items/" + id.toString());
   },
-  saveEvent(event: EventItem): Promise<AxiosResponse<EventItem>> {
-    return apiClient.post<EventItem>("/events", event);
+  getAuctionByKeyword(keyword: string, perPage: number, page: number): Promise<AxiosResponse<AuctionItem[]>> {
+    return apiClient.get<AuctionItem[]>('/items?des='+keyword+'&_limit='+perPage+'&_page='+page)
   },
-  getStudent(): Promise<AxiosResponse<studentInfo[]>> {
-    return apiClient.get<studentInfo[]>("/students");
-  },
-  getOrganizers():Promise<AxiosResponse<OrganizerItem[]>>{
-    return apiClient.get<OrganizerItem[]>('/organizer')
-  },
-  getEventsByKeyword(keyword:string,perPage:number,page:number):Promise<AxiosResponse<EventItem[]>>{
-    return apiClient.get<EventItem[]>('/events?title='+keyword+'&_limit='+perPage+'&_page='+page)
+  getItemLessThanKeyword(keyword: string, perPage: number, page: number): Promise<AxiosResponse<AuctionItem[]>> {
+    return apiClient.get<AuctionItem[]>('/items?amount=' + keyword + '&_limit=' + perPage + '&_page=' + page)
   }
-  // getOrganizer(
-  //   perPage: number,
-  //   page: number
-  // ): Promise<AxiosResponse<OrganizerItem[]>> {
-  //   return apiClient.get<Array<OrganizerItem>>(
-  //     "/organizer?_limit=" + perPage + "&_page=" + page
-  //   );
-  // },
-  // getOrganizeById(id: number): Promise<AxiosResponse<OrganizerItem>> {
-  //   return apiClient.get<OrganizerItem>("organizer/" + id.toString());
-  // },
-  // saveOrganizer(
-  //   organizer: OrganizerItem
-  // ): Promise<AxiosResponse<OrganizerItem>> {
-  //   return apiClient.post<OrganizerItem>("/organizer", organizer);
-  // },
+
 };

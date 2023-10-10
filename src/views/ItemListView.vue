@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import EventCard from "../components/EventCard.vue";
-import type { EventItem } from "@/type";
+import type { AuctionItem } from "@/type";
 import { computed, ref, watchEffect } from "vue";
 import type { Ref } from "vue";
 import EventService from "@/services/EventService";
@@ -8,9 +7,11 @@ import type { AxiosResponse } from "axios";
 import { useRouter } from "vue-router";
 import { onBeforeRouteUpdate } from "vue-router";
 import BaseInput from "@/components/BaseInput.vue";
+import ItemCard from "@/components/ItemCard.vue";
+
 
 const router = useRouter();
-const events: Ref<Array<EventItem>> = ref([]);
+const events: Ref<Array<AuctionItem>> = ref([]);
 const totalEvent = ref<number>(0);
 const eventsPerPage = ref(2); //initial value of events
 const props = defineProps({
@@ -20,8 +21,8 @@ const props = defineProps({
   },
 });
 watchEffect(() => {
-  EventService.getEvent(eventsPerPage.value, props.page)
-    .then((response: AxiosResponse<EventItem[]>) => {
+  EventService.getAuctionItem(eventsPerPage.value, props.page)
+    .then((response: AxiosResponse<AuctionItem[]>) => {
       events.value = response.data;
       totalEvent.value = response.headers["x-total-count"];
       console.log('Fetched total events:', response.headers["x-total-count"]);
@@ -34,12 +35,12 @@ onBeforeRouteUpdate((to, from, next) => {
   const toPage = Number(to.query.page);
   let queryFunction;
   if (keyword.value === null || keyword.value === '') {
-    queryFunction = EventService.getEvent(eventsPerPage.value, toPage);
+    queryFunction = EventService.getAuctionItem(eventsPerPage.value, toPage);
   } else {
-    queryFunction = EventService.getEventsByKeyword(keyword.value, eventsPerPage.value, toPage);
+    queryFunction = EventService.getAuctionByKeyword(keyword.value, eventsPerPage.value, toPage);
   }
   queryFunction
-    .then((response: AxiosResponse<EventItem[]>) => {
+    .then((response: AxiosResponse<AuctionItem[]>) => {
       events.value = response.data;
       totalEvent.value = response.headers["x-total-count"];
       next();
@@ -59,11 +60,11 @@ const keyword = ref('')
 function updateKeyword(value:string){
   let queryFunction;
   if(keyword.value === ''){
-    queryFunction = EventService.getEvent(2,1)
+    queryFunction = EventService.getAuctionItem(2,1)
   }else{
-    queryFunction = EventService.getEventsByKeyword(keyword.value,2,1)
+    queryFunction = EventService.getAuctionByKeyword(keyword.value,2,1)
   }
-  queryFunction.then((response:AxiosResponse<EventItem[]>) =>{
+  queryFunction.then((response:AxiosResponse<AuctionItem[]>) =>{
     events.value = response.data
     console.log('events',events.value)
     totalEvent.value = response.headers['x-total-count']
@@ -94,14 +95,14 @@ function updateKeyword(value:string){
         class="border border-gray-300 p-2 rounded"
       />
     </div>
-    <EventCard
+    <ItemCard
       v-for="event in events"
       :key="event.id"
       :event="event"
-    ></EventCard>
+    ></ItemCard>
     <div class="pagination">
       <RouterLink
-        :to="{ name: 'event-list', query: { page: page - 1 } }"
+        :to="{ name: 'item-list', query: { page: page - 1 } }"
         rel="prev"
         v-if="page != 1"
         id="page-prev"
@@ -110,7 +111,7 @@ function updateKeyword(value:string){
         Prev page
       </RouterLink>
       <RouterLink
-        :to="{ name: 'event-list', query: { page: page + 1 } }"
+        :to="{ name: 'item-list', query: { page: page + 1 } }"
         rel="next"
         v-if="hasNextPages"
         id="page-next"
